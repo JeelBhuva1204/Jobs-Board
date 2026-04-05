@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>JobScout – Find Your Dream Role</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#F7F8FC;--white:#fff;--border:#E8EBF4;--border2:#D1D5E8;
+  --text:#0F172A;--text2:#64748B;--text3:#94A3B8;
+  --accent:#4F46E5;--accent-light:#EEF2FF;--accent-mid:#C7D2FE;
+  --green-bg:#ECFDF5;--green:#065F46;
+  --blue-bg:#EFF6FF;--blue:#1E40AF;
+  --amber-bg:#FFFBEB;--amber:#92400E;
+  --purple-bg:#F5F3FF;--purple:#5B21B6;
+  --red-bg:#FFF1F2;--red:#9F1239;
+  --radius:10px;--radius-lg:14px;--shadow:0 2px 12px rgba(15,23,42,0.07);
+  --shadow-hover:0 8px 28px rgba(79,70,229,0.12);
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit}
+
+/* HEADER */
+.header{background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:50;box-shadow:0 1px 4px rgba(15,23,42,0.04)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-box{width:34px;height:34px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:800}
+.logo-text{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.4px}
+.logo-text span{color:var(--accent)}
+.header-btns{display:flex;gap:10px;align-items:center}
+.btn-outline{padding:8px 16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--white);color:var(--text2);font-size:13px;font-weight:500}
+.btn-outline:hover{border-color:var(--border2);color:var(--text)}
+.btn-primary{padding:8px 18px;border-radius:var(--radius);border:none;background:var(--accent);color:#fff;font-size:13px;font-weight:600}
+.btn-primary:hover{background:#4338CA}
+
+/* HERO */
+.hero{background:var(--white);border-bottom:1px solid var(--border);padding:52px 24px 44px;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);color:var(--accent);font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;margin-bottom:18px;letter-spacing:0.2px}
+.hero h1{font-size:clamp(26px,4.5vw,46px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:12px}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--text2);font-size:15px;margin-bottom:28px}
+.search-wrap{max-width:580px;margin:0 auto;display:flex;background:var(--bg);border:1.5px solid var(--border2);border-radius:12px;padding:5px 5px 5px 14px;align-items:center;gap:8px}
+.search-wrap input{flex:1;border:none;background:transparent;outline:none;font-size:14px;color:var(--text)}
+.search-wrap input::placeholder{color:var(--text3)}
+.btn-search{padding:10px 22px;background:var(--accent);border:none;border-radius:9px;color:#fff;font-size:13px;font-weight:700;white-space:nowrap}
+.btn-search:hover{background:#4338CA}
+.stats-row{display:flex;justify-content:center;gap:40px;margin-top:28px;flex-wrap:wrap}
+.stat-num{font-size:22px;font-weight:800;color:var(--accent);letter-spacing:-0.5px}
+.stat-label{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+
+/* MAIN */
+.main{max-width:1160px;margin:0 auto;padding:28px 20px 64px}
+
+/* FILTERS */
+.filter-box{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;margin-bottom:20px}
+.filter-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:640px){.filter-row{grid-template-columns:1fr}}
+.filter-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:9px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:6px 13px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--text2);font-size:12px;font-weight:500}
+.chip:hover{border-color:var(--border2);color:var(--text)}
+.chip.active{background:var(--accent-light);border-color:var(--accent-mid);color:var(--accent);font-weight:700}
+
+/* TABS + TOPBAR */
+.tabs{display:flex;gap:4px;margin-bottom:18px}
+.tab{padding:9px 18px;border-radius:var(--radius);border:1px solid transparent;background:transparent;color:var(--text2);font-size:13px;font-weight:500}
+.tab:hover{color:var(--text)}
+.tab.active{background:var(--accent-light);border-color:var(--accent-mid);color:var(--accent);font-weight:700}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.result-count{font-size:13px;color:var(--text2)}
+.result-count strong{color:var(--text);font-weight:700}
+.sort-sel{background:var(--white);border:1px solid var(--border);color:var(--text2);font-size:13px;padding:7px 12px;border-radius:var(--radius);outline:none}
+
+/* GRID */
+.jobs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+
+/* JOB CARD */
+.job-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;cursor:pointer;transition:border-color .18s,transform .18s,box-shadow .18s;position:relative;overflow:hidden}
+.job-card:hover{border-color:var(--accent-mid);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.job-card.saved{border-color:var(--accent-mid);background:#FAFBFF}
+.featured-bar{position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.co-logo{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;border:1px solid var(--border);flex-shrink:0}
+.save-btn{width:30px;height:30px;border-radius:8px;background:transparent;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text3);transition:all .15s}
+.save-btn:hover{border-color:var(--accent-mid);color:var(--accent)}
+.save-btn.saved{background:var(--accent-light);border-color:var(--accent-mid);color:var(--accent)}
+.job-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;letter-spacing:-0.2px}
+.co-name{font-size:13px;color:var(--text2);margin-bottom:12px}
+.tag-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.tag{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.tag-loc{background:#F0F9FF;color:#0369A1}
+.tag-ft{background:var(--accent-light);color:#3730A3}
+.tag-ct{background:var(--amber-bg);color:var(--amber)}
+.tag-rem{background:var(--green-bg);color:var(--green)}
+.tag-sal{background:var(--purple-bg);color:var(--purple)}
+.tag-cat{background:var(--bg);color:var(--text2)}
+.card-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:12px}
+.posted{font-size:11px;color:var(--text3)}
+.badge-new{padding:3px 8px;background:#DCFCE7;color:#166534;border-radius:20px;font-size:10px;font-weight:700}
+.badge-feat{padding:3px 8px;background:var(--accent-light);color:var(--accent);border-radius:20px;font-size:10px;font-weight:600}
+.badges{display:flex;gap:5px}
+
+/* LOAD MORE */
+.load-wrap{text-align:center;padding-top:32px}
+.btn-load{padding:12px 36px;background:var(--white);border:1.5px solid var(--border2);border-radius:var(--radius);color:var(--text2);font-size:14px;font-weight:600}
+.btn-load:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light)}
+
+/* EMPTY */
+.empty{text-align:center;padding:60px 20px;color:var(--text3)}
+.empty-icon{font-size:40px;margin-bottom:12px}
+.empty h3{font-size:16px;font-weight:700;color:var(--text2);margin-bottom:6px}
+.empty p{font-size:13px}
+
+/* DETAIL PANEL */
+.panel-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.4);z-index:100;display:none}
+.panel-overlay.open{display:block}
+.detail-panel{position:fixed;top:0;right:-500px;width:min(480px,100vw);height:100vh;background:var(--white);border-left:1px solid var(--border);overflow-y:auto;z-index:101;padding:28px;transition:right .3s cubic-bezier(.16,1,.3,1);box-shadow:-16px 0 48px rgba(15,23,42,0.1)}
+.detail-panel.open{right:0}
+.panel-close{position:absolute;top:18px;right:18px;width:32px;height:32px;border-radius:9px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text2)}
+.panel-close:hover{background:var(--border);color:var(--text)}
+.panel-logo{width:60px;height:60px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;border:1px solid var(--border);background:var(--bg);margin-bottom:14px}
+.panel-title{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-0.5px;margin-bottom:4px}
+.panel-sub{font-size:14px;color:var(--text2);margin-bottom:16px}
+.panel-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.sec-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px}
+.sec-text{font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:18px}
+.req-list{list-style:none;margin-bottom:18px}
+.req-list li{font-size:14px;color:var(--text2);padding-left:16px;position:relative;line-height:1.65;margin-bottom:5px}
+.req-list li::before{content:"→";position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+.btn-apply{width:100%;padding:14px;background:var(--accent);border:none;border-radius:var(--radius);color:#fff;font-size:15px;font-weight:700;margin-top:8px;letter-spacing:-0.2px}
+.btn-apply:hover{background:#4338CA}
+.btn-save-panel{width:100%;padding:11px;background:var(--white);border:1.5px solid var(--border2);border-radius:var(--radius);color:var(--text2);font-size:14px;font-weight:500;margin-top:8px}
+.btn-save-panel:hover{border-color:var(--accent);color:var(--accent)}
+.btn-save-panel.saved{background:var(--accent-light);border-color:var(--accent-mid);color:var(--accent)}
+
+/* MODAL */
+.modal-wrap{position:fixed;inset:0;background:rgba(15,23,42,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-wrap.open{display:flex}
+.modal{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:30px;width:100%;max-width:430px;position:relative}
+.modal-title{font-size:20px;font-weight:800;color:var(--text);letter-spacing:-0.4px;margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:22px}
+.form-group{margin-bottom:13px}
+.form-group label{display:block;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px}
+.form-group input,.form-group textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;color:var(--text);font-size:14px;outline:none;transition:border-color .15s}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--accent)}
+.form-group textarea{height:76px;resize:none}
+.modal-btns{display:flex;gap:8px;margin-top:18px}
+.btn-cancel{flex:1;padding:11px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text2);font-size:14px;font-weight:500}
+.btn-submit{flex:2;padding:11px;background:var(--accent);border:none;border-radius:9px;color:#fff;font-size:14px;font-weight:700}
+.btn-submit:hover{background:#4338CA}
+.success-wrap{text-align:center;padding:16px 0}
+.success-icon{font-size:50px;margin-bottom:14px}
+.success-title{font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px}
+.success-text{font-size:14px;color:var(--text2);margin-bottom:22px}
+.btn-done{padding:11px 32px;background:var(--accent);border:none;border-radius:9px;color:#fff;font-size:14px;font-weight:700}
+
+@media(max-width:600px){
+  .header{padding:0 16px}
+  .hero{padding:36px 16px 32px}
+  .main{padding:20px 14px 48px}
+  .filter-box{padding:16px}
+  .jobs-grid{grid-template-columns:1fr}
+  .stats-row{gap:24px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    <div class="logo-box">J</div>
+    <div class="logo-text">Job<span>Scout</span></div>
+  </div>
+  <div class="header-btns">
+    <button class="btn-outline">Sign In</button>
+    <button class="btn-primary">Post a Job</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">&#10022; 12 Curated Roles Available</div>
+  <h1>Find Your Next<br><span>Dream Role</span></h1>
+  <p>Top companies. Vetted jobs. Zero noise.</p>
+  <div class="search-wrap">
+    <svg width="16" height="16" fill="none" stroke="#94A3B8" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Search roles, companies, skills…"/>
+    <button class="btn-search" onclick="applyFilters()">Search</button>
+  </div>
+  <div class="stats-row">
+    <div><div class="stat-num">12</div><div class="stat-label">Open Roles</div></div>
+    <div><div class="stat-num">12</div><div class="stat-label">Companies</div></div>
+    <div><div class="stat-num" id="statRemote">5</div><div class="stat-label">Remote Jobs</div></div>
+    <div><div class="stat-num" id="statSaved">0</div><div class="stat-label">Saved</div></div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- FILTERS -->
+  <div class="filter-box">
+    <div class="filter-row">
+      <div>
+        <div class="filter-label">Category</div>
+        <div class="chips" id="catChips"></div>
+      </div>
+      <div>
+        <div class="filter-label">Location</div>
+        <div class="chips" id="locChips"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" id="tabAll" onclick="setTab('all')">All Jobs</button>
+    <button class="tab" id="tabSaved" onclick="setTab('saved')">Saved (<span id="savedCount">0</span>)</button>
+  </div>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="result-count">Showing <strong id="showingCount">0</strong> of <strong id="totalCount">0</strong> jobs</div>
+    <select class="sort-sel">
+      <option>Most Recent</option>
+      <option>Highest Salary</option>
+      <option>Most Relevant</option>
+    </select>
+  </div>
+
+  <!-- GRID -->
+  <div class="jobs-grid" id="jobsGrid"></div>
+  <div class="load-wrap" id="loadWrap" style="display:none">
+    <button class="btn-load" id="loadMoreBtn" onclick="loadMore()">Load More Jobs &#8595;</button>
+  </div>
+  <div class="empty" id="emptyMsg" style="display:none">
+    <div class="empty-icon" id="emptyIcon">&#128269;</div>
+    <h3 id="emptyTitle">No jobs found</h3>
+    <p id="emptyText">Try adjusting your search or filters</p>
+  </div>
+
+</main>
+
+<!-- PANEL OVERLAY -->
+<div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-panel" id="detailPanel">
+  <button class="panel-close" onclick="closePanel()">&#10005;</button>
+  <div id="panelContent"></div>
+</div>
+
+<!-- APPLY MODAL -->
+<div class="modal-wrap" id="applyModal">
+  <div class="modal">
+    <button class="panel-close" onclick="closeModal()" style="position:absolute;top:16px;right:16px">&#10005;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+const JOBS = [
+  {id:1,title:"Senior Frontend Engineer",company:"Vercel",logo:"&#9650;",color:"#0070F3",location:"San Francisco, CA",remote:true,type:"Full-time",category:"Engineering",salary:"$140k–$180k",posted:"2h ago",isNew:true,featured:true,desc:"Join Vercel's frontend team to build the future of web development. You'll work on our dashboard, CLI, and developer tools used by millions worldwide.",reqs:["5+ years React/TypeScript","Experience with Next.js","Web performance expertise","Strong CS fundamentals"],benefits:["Unlimited PTO","$10k learning budget","Top-tier health insurance","Remote-first culture"]},
+  {id:2,title:"Product Designer",company:"Linear",logo:"&#11043;",color:"#5E6AD2",location:"Remote",remote:true,type:"Full-time",category:"Design",salary:"$120k–$150k",posted:"5h ago",isNew:true,featured:false,desc:"Design beautiful, functional interfaces for Linear's project management platform. Work closely with engineering to ship pixel-perfect products at high velocity.",reqs:["4+ years product design","Figma proficiency","Strong interaction design","Design systems experience"],benefits:["Fully remote","Equity package","Home office stipend","Annual retreat"]},
+  {id:3,title:"Backend Engineer – Go",company:"PlanetScale",logo:"&#9672;",color:"#FF6154",location:"Austin, TX",remote:false,type:"Full-time",category:"Engineering",salary:"$130k–$165k",posted:"1d ago",isNew:false,featured:true,desc:"Build distributed database infrastructure at massive scale. Work on the core PlanetScale engine improving performance and reliability for thousands of databases.",reqs:["Strong Go experience","Database internals knowledge","Distributed systems background","MySQL/Vitess a plus"],benefits:["Stock options","Flexible hours","Top hardware","Team events"]},
+  {id:4,title:"Growth Marketing Manager",company:"Notion",logo:"&#9633;",color:"#000000",location:"New York, NY",remote:true,type:"Full-time",category:"Marketing",salary:"$95k–$125k",posted:"1d ago",isNew:false,featured:false,desc:"Drive Notion's growth through data-driven campaigns, SEO, and partnership programs. Own key acquisition channels and experiment relentlessly.",reqs:["3+ years growth/marketing","Strong data analysis skills","PLG experience","Excellent communication"],benefits:["Flexible PTO","401k match","Wellness stipend","Team lunches"]},
+  {id:5,title:"Staff ML Engineer",company:"Anthropic",logo:"&#10022;",color:"#C9510C",location:"San Francisco, CA",remote:false,type:"Full-time",category:"AI/ML",salary:"$200k–$280k",posted:"2d ago",isNew:false,featured:true,desc:"Work on frontier AI systems at Anthropic. Develop novel training methods, improve model safety, and push the boundaries of large language models.",reqs:["PhD or equivalent ML experience","Deep learning expertise","Python/JAX/PyTorch","Published research preferred"],benefits:["Exceptional compensation","Mission-driven work","Top research team","Comprehensive benefits"]},
+  {id:6,title:"DevRel Engineer",company:"Stripe",logo:"&#9672;",color:"#635BFF",location:"Remote",remote:true,type:"Full-time",category:"Engineering",salary:"$130k–$155k",posted:"3d ago",isNew:false,featured:false,desc:"Help developers build great payments products on Stripe. Create tutorials, demos, and developer tooling while advocating for the developer experience.",reqs:["Full-stack development skills","Excellent technical writing","Strong public speaking","Payments knowledge a plus"],benefits:["Remote-first","Great equity","Learning budget","401k"]},
+  {id:7,title:"iOS Engineer",company:"Figma",logo:"&#9673;",color:"#F24E1E",location:"Seattle, WA",remote:false,type:"Full-time",category:"Engineering",salary:"$145k–$190k",posted:"3d ago",isNew:false,featured:false,desc:"Build Figma's native iOS app used by millions of designers. Work on performance, new features, and push the boundaries of mobile design tools.",reqs:["5+ years iOS/Swift","UIKit and SwiftUI expertise","Performance optimization","Collaborative spirit"],benefits:["Top-tier benefits","Stock options","Paid parental leave","Gym membership"]},
+  {id:8,title:"Data Analyst",company:"Shopify",logo:"&#9670;",color:"#96BF48",location:"Toronto, ON",remote:true,type:"Contract",category:"Data",salary:"$80k–$105k",posted:"4d ago",isNew:false,featured:false,desc:"Analyze merchant behavior, payment flows, and platform trends. Build dashboards and models that leadership relies on daily for key decisions.",reqs:["SQL expertise","Python/R for analysis","Data visualization skills","Business acumen"],benefits:["Contract-to-hire possible","Flexible hours","Remote work","Competitive rate"]},
+  {id:9,title:"Staff Security Engineer",company:"Cloudflare",logo:"&#9681;",color:"#F48120",location:"Austin, TX",remote:true,type:"Full-time",category:"Security",salary:"$150k–$200k",posted:"5d ago",isNew:false,featured:false,desc:"Protect Cloudflare's global network handling 20%+ of internet traffic. Work on threat detection, vulnerability management, and security infrastructure.",reqs:["6+ years security engineering","Networking expertise","Incident response experience","Certifications a plus"],benefits:["Equity grants","Remote-OK","Learning budget","Top hardware"]},
+  {id:10,title:"Head of Product",company:"Loom",logo:"&#9654;",color:"#625DF5",location:"Remote",remote:true,type:"Full-time",category:"Product",salary:"$175k–$210k",posted:"1w ago",isNew:false,featured:false,desc:"Lead Loom's product strategy and team. Define the vision for async video communication and build features that millions of teams use to work better.",reqs:["8+ years product experience","2+ years in leadership","User research background","PLG experience preferred"],benefits:["Executive compensation","Equity","Remote-first","Generous PTO"]},
+  {id:11,title:"Customer Success Manager",company:"HubSpot",logo:"&#9678;",color:"#FF7A59",location:"Boston, MA",remote:true,type:"Full-time",category:"Customer Success",salary:"$70k–$95k",posted:"6d ago",isNew:false,featured:false,desc:"Own relationships with HubSpot's mid-market customer portfolio. Help customers achieve goals, drive expansion, and become vocal champions.",reqs:["2+ years in CSM or AE role","Strong CRM knowledge","Excellent communication","Empathy-first mindset"],benefits:["Unlimited PTO","Health and dental","Tuition reimbursement","Fun culture"]},
+  {id:12,title:"Technical Recruiter",company:"Airbnb",logo:"&#9671;",color:"#FF5A5F",location:"San Francisco, CA",remote:false,type:"Full-time",category:"HR",salary:"$90k–$115k",posted:"1w ago",isNew:false,featured:false,desc:"Source and hire world-class engineering talent at Airbnb. Build pipelines, refine processes, and partner with engineering leaders to grow exceptional teams.",reqs:["3+ years technical recruiting","ATS proficiency","Excellent sourcing skills","Stakeholder management"],benefits:["Travel credits","Equity","Great benefits","On-site meals"]}
+];
+
+const CATS = ["All","Engineering","Design","Marketing","AI/ML","Data","Security","Product","Customer Success","HR"];
+const LOCS = ["All","Remote","San Francisco, CA","New York, NY","Austin, TX","Seattle, WA","Boston, MA","Toronto, ON"];
+
+let state = {search:"",cat:"All",loc:"All",saved:new Set(),tab:"all",visible:6,selJob:null};
+
+function init(){
+  buildChips("catChips",CATS,()=>state.cat,(v)=>{state.cat=v;state.visible=6;render()});
+  buildChips("locChips",LOCS,()=>state.loc,(v)=>{state.loc=v;state.visible=6;render()});
+  document.getElementById("searchInput").addEventListener("input",e=>{state.search=e.target.value;state.visible=6;render()});
+  render();
+}
+
+function buildChips(id,items,getActive,setActive){
+  const el=document.getElementById(id);
+  items.forEach(v=>{
+    const b=document.createElement("button");
+    b.className="chip"+(getActive()===v?" active":"");
+    b.textContent=v;
+    b.dataset.val=v;
+    b.onclick=()=>{setActive(v);buildChips(id,items,getActive,setActive);render()};
+    el.appendChild(b);
+  });
+}
+
+function refreshChips(id,items,getActive,setActive){
+  const el=document.getElementById(id);
+  el.querySelectorAll(".chip").forEach(b=>{
+    b.className="chip"+(getActive()===b.dataset.val?" active":"");
+    b.onclick=()=>{setActive(b.dataset.val);refreshAllChips();render()};
+  });
+}
+
+function refreshAllChips(){
+  document.getElementById("catChips").querySelectorAll(".chip").forEach(b=>{b.className="chip"+(state.cat===b.dataset.val?" active":"")});
+  document.getElementById("locChips").querySelectorAll(".chip").forEach(b=>{b.className="chip"+(state.loc===b.dataset.val?" active":"")});
+}
+
+function getFiltered(){
+  return JOBS.filter(j=>{
+    const s=state.search.toLowerCase();
+    const ms=!s||j.title.toLowerCase().includes(s)||j.company.toLowerCase().includes(s)||j.category.toLowerCase().includes(s);
+    const mc=state.cat==="All"||j.category===state.cat;
+    const ml=state.loc==="All"||(state.loc==="Remote"?j.remote:j.location===state.loc);
+    if(state.tab==="saved") return ms&&mc&&ml&&state.saved.has(j.id);
+    return ms&&mc&&ml;
+  });
+}
+
+function render(){
+  const filtered=getFiltered();
+  const visible=filtered.slice(0,state.visible);
+  const grid=document.getElementById("jobsGrid");
+  const empty=document.getElementById("emptyMsg");
+  const loadWrap=document.getElementById("loadWrap");
+
+  document.getElementById("showingCount").textContent=visible.length;
+  document.getElementById("totalCount").textContent=filtered.length;
+  document.getElementById("statSaved").textContent=state.saved.size;
+  document.getElementById("savedCount").textContent=state.saved.size;
+  document.getElementById("tabSaved").querySelector("span").textContent=state.saved.size;
+
+  if(filtered.length===0){
+    grid.innerHTML="";
+    loadWrap.style.display="none";
+    empty.style.display="block";
+    document.getElementById("emptyIcon").textContent=state.tab==="saved"?"🔖":"🔍";
+    document.getElementById("emptyTitle").textContent=state.tab==="saved"?"No saved jobs yet":"No jobs found";
+    document.getElementById("emptyText").textContent=state.tab==="saved"?"Bookmark roles to revisit them later":"Try adjusting your search or filters";
+    return;
+  }
+  empty.style.display="none";
+  grid.innerHTML=visible.map(j=>cardHTML(j)).join("");
+  loadWrap.style.display=visible.length<filtered.length?"block":"none";
+  if(visible.length<filtered.length){
+    document.getElementById("loadMoreBtn").textContent="Load "+Math.min(6,filtered.length-visible.length)+" More Jobs ↓";
+  }
+}
+
+function cardHTML(j){
+  const sv=state.saved.has(j.id);
+  return`<div class="job-card${sv?" saved":""}" onclick="openPanel(${j.id})">
+    ${j.featured?'<div class="featured-bar"></div>':""}
+    <div class="card-top">
+      <div class="co-logo" style="background:${j.color}18;border-color:${j.color}28;color:${j.color}">${j.logo}</div>
+      <button class="save-btn${sv?" saved":""}" onclick="toggleSave(event,${j.id})">${sv?"&#9733;":"&#9734;"}</button>
+    </div>
+    <div class="job-title">${j.title}</div>
+    <div class="co-name">${j.company}</div>
+    <div class="tag-row">
+      <span class="tag tag-loc">&#128205; ${j.location}</span>
+      <span class="tag ${j.type==="Contract"?"tag-ct":"tag-ft"}">${j.type}</span>
+      ${j.remote?'<span class="tag tag-rem">Remote</span>':""}
+      <span class="tag tag-sal">${j.salary}</span>
+    </div>
+    <div class="card-footer">
+      <span class="posted">${j.posted}</span>
+      <div class="badges">
+        ${j.isNew?'<span class="badge-new">NEW</span>':""}
+        ${j.featured?'<span class="badge-feat">Featured</span>':""}
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleSave(e,id){
+  e.stopPropagation();
+  if(state.saved.has(id)) state.saved.delete(id); else state.saved.add(id);
+  render();
+  if(state.selJob&&state.selJob.id===id) renderPanel(state.selJob);
+}
+
+function setTab(t){
+  state.tab=t;
+  document.getElementById("tabAll").className="tab"+(t==="all"?" active":"");
+  document.getElementById("tabSaved").className="tab"+(t==="saved"?" active":"");
+  state.visible=6;render();
+}
+
+function applyFilters(){render();}
+
+function loadMore(){state.visible+=6;render();}
+
+function openPanel(id){
+  state.selJob=JOBS.find(j=>j.id===id);
+  renderPanel(state.selJob);
+  document.getElementById("panelOverlay").classList.add("open");
+  document.getElementById("detailPanel").classList.add("open");
+}
+
+function renderPanel(j){
+  const sv=state.saved.has(j.id);
+  document.getElementById("panelContent").innerHTML=`
+    <div class="panel-logo" style="background:${j.color}18;border-color:${j.color}28;color:${j.color}">${j.logo}</div>
+    <div class="panel-title">${j.title}</div>
+    <div class="panel-sub">${j.company} &middot; ${j.location}</div>
+    <div class="panel-tags">
+      <span class="tag ${j.type==="Contract"?"tag-ct":"tag-ft"}">${j.type}</span>
+      ${j.remote?'<span class="tag tag-rem">Remote OK</span>':""}
+      <span class="tag tag-sal">${j.salary}</span>
+      <span class="tag tag-cat">${j.category}</span>
+    </div>
+    <div class="sec-label">About the Role</div>
+    <div class="sec-text">${j.desc}</div>
+    <div class="sec-label">Requirements</div>
+    <ul class="req-list">${j.reqs.map(r=>`<li>${r}</li>`).join("")}</ul>
+    <div class="sec-label">Benefits &amp; Perks</div>
+    <ul class="req-list" style="margin-bottom:22px">${j.benefits.map(b=>`<li>${b}</li>`).join("")}</ul>
+    <button class="btn-apply" onclick="openApply()">Apply for this Role &rarr;</button>
+    <button class="btn-save-panel${sv?" saved":""}" onclick="toggleSave(event,${j.id})">${sv?"&#9733; Saved":"&#9734; Save Job"}</button>
+  `;
+}
+
+function closePanel(){
+  document.getElementById("panelOverlay").classList.remove("open");
+  document.getElementById("detailPanel").classList.remove("open");
+}
+
+function openApply(){
+  const j=state.selJob;
+  document.getElementById("modalContent").innerHTML=`
+    <div class="modal-title">Apply Now</div>
+    <div class="modal-sub">${j.title} &middot; ${j.company}</div>
+    <div class="form-group"><label>Full Name</label><input type="text" id="f_name" placeholder="Jane Smith"/></div>
+    <div class="form-group"><label>Email Address</label><input type="email" id="f_email" placeholder="jane@example.com"/></div>
+    <div class="form-group"><label>LinkedIn / Portfolio</label><input type="text" id="f_link" placeholder="linkedin.com/in/yourname"/></div>
+    <div class="form-group"><label>Cover Note</label><textarea id="f_note" placeholder="Brief intro (optional)..."></textarea></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-submit" onclick="submitApply()">Submit Application &rarr;</button>
+    </div>
+  `;
+  document.getElementById("applyModal").classList.add("open");
+}
+
+function submitApply(){
+  document.getElementById("modalContent").innerHTML=`
+    <div class="success-wrap">
+      <div class="success-icon">&#127881;</div>
+      <div class="success-title">Application Submitted!</div>
+      <div class="success-text">We'll review and get back to you within 3–5 business days.</div>
+      <button class="btn-done" onclick="closeModal()">Done</button>
+    </div>
+  `;
+}
+
+function closeModal(){document.getElementById("applyModal").classList.remove("open");}
+
+document.getElementById("applyModal").addEventListener("click",e=>{if(e.target===e.currentTarget)closeModal();});
+
+init();
+</script>
+</body>
+</html>
